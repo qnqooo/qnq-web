@@ -1,0 +1,39 @@
+{
+  "schema": "qnq.public-platform-status.v1",
+  "updatedAt": "2026-07-19",
+  "repository": "qnqooo/qnq-web",
+  "surface": "PUBLIC_STATIC_MARKETING_SITE",
+  "deployment": {
+    "channel": "GITHUB_PAGES",
+    "domain": "qnq.ooo",
+    "productionChangeAuthorized": false
+  },
+  "capabilities": {
+    "publicWebsite": "IMPLEMENTED_STATIC",
+    "bilingualExperience": "IMPLEMENTED_CLIENT_SIDE",
+    "executiveEvaluation": "REQUEST_ONLY_NO_AUTOMATED_PROVISIONING",
+    "qnqAccount": "ROADMAP_NOT_IMPLEMENTED_IN_THIS_REPOSITORY",
+    "identity": "SQAILE_OWNED_NOT_IMPLEMENTED_IN_THIS_REPOSITORY",
+    "multiTenantBackend": "SQAILE_OWNED_NOT_IMPLEMENTED_IN_THIS_REPOSITORY",
+    "checkout": "SQAILE_OWNED_NOT_IMPLEMENTED_IN_THIS_REPOSITORY",
+    "providerIntegrations": "SQAILE_QUHUB_OWNED_NOT_IMPLEMENTED_IN_THIS_REPOSITORY",
+    "managedSoc": "QUSOC_ROADMAP_NOT_PRODUCTION_EVIDENCED_HERE",
+    "pqc": "SQAILE_QUFENSE_SCOPE_ONLY_NO_QUANTUM_ADVANTAGE_CLAIM"
+  },
+  "security": {
+    "browserAuthentication": false,
+    "localStorageAuthentication": false,
+    "providerCredentials": false,
+    "externalApiCalls": false,
+    "secretsStored": false,
+    "qufenseProductionEvidence": false
+  },
+  "governance": {
+    "externalGateway": "QuHub",
+    "securityAuthority": "QuFense",
+    "identityAuthority": "QuIdentify",
+    "costAuthority": "QuCFA",
+    "promotionAuthority": "EDDIE VELASQUEZ ORTIZ",
+    "publicationRequiresApproval": true
+  }
+}
