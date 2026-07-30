@@ -1,0 +1,23 @@
+name: build
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Aggy GA loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'aggy-embed.js?v=1.0.0' index.html
+          grep -Fq 'data-aggy-site="qnq.ooo"' index.html
+          grep -Fq 'data-aggy-crypto-profile="E2EE/PQC"' index.html
