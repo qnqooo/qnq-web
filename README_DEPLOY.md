@@ -1,21 +1,22 @@
-# QnQ™ Corporate Experience v1.0.0 — Foundation Release
+# QnQ™ public-site release procedure
 
-Status: Approved / Locked for production upload.
+Status: local changes are not approved for production by default.
 
-## Included
-- QnQ™ Corporate Experience
-- Enterprise Freedom
-- Neural Enterprise Control Plane (NECP) introduction
-- SQAILE™ as conceptual governing entity
-- Horizon∞™ strategic vision
-- Reseller Program
-- SECQUOIA™ Strategic Holdings LLC ownership footer
-- Austin, Texas, USA headquarters reference
-- Responsive single-file deployment for GitHub Pages
+`qnq-web` is the static public experience for `qnq.ooo`. Authentication,
+multi-tenancy, checkout, provisioning and provider integrations are owned by
+the governed SQAILE services and must not be simulated in this repository.
 
-## Deploy
-Upload `index.html` to the root of the `main` branch.
+## Required release gates
 
-Recommended commit:
+1. Work on a dedicated branch and identify the requirement being implemented.
+2. Run `node tools/validate-site.mjs`, `node tools/validate-roadmap.mjs` and `node --test tests/*.test.mjs`.
+3. Review the product claims against `platform-status.json` and current evidence.
+4. Open a pull request and confirm the CI workflow passes.
+5. Obtain explicit approval from EDDIE VELASQUEZ ORTIZ before merging or publishing.
+6. Merge through the reviewed pull request. Do not upload files directly to `main`.
+7. Verify `https://qnq.ooo/`, `robots.txt` and `sitemap.xml` after publication.
 
-`Launch QnQ Corporate Experience v1.0.0 Foundation Release`
+## Rollback
+
+Revert the approved release commit through a reviewed pull request. The existing
+`CNAME` remains `qnq.ooo`; this procedure does not authorize DNS changes.

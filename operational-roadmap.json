@@ -1,0 +1,200 @@
+{
+  "schema": "qnq.operational-roadmap.v1",
+  "requirement": "QNQ-REQ-OPERATIONAL-PRODUCTS-2026-07-19",
+  "asOf": "2026-07-19",
+  "owner": "EDDIE VELASQUEZ ORTIZ",
+  "promotionAuthority": "EDDIE VELASQUEZ ORTIZ",
+  "publicationAuthorized": false,
+  "objective": "Convert the current TRL 4-5 product experience into evidence-backed, externally sellable services without confusing prototypes with production controls.",
+  "operationalDefinition": {
+    "label": "100_PERCENT_OPERATIONAL",
+    "rule": "A product is operational only when every mandatory gate is PASS with current evidence; a percentage, demo, local test or roadmap entry is never sufficient.",
+    "mandatoryGates": [
+      "PRODUCT_TRUTH",
+      "SECURITY_QUFENSE",
+      "IDENTITY_TENANCY",
+      "COMMERCIAL_QUCFA",
+      "PROVISIONING_QUHUB",
+      "OBSERVABILITY_AUDIT",
+      "SUPPORT_RECOVERY",
+      "CUSTOMER_ACCEPTANCE_ROLLBACK"
+    ]
+  },
+  "financialGuardrails": {
+    "engine": "QuCFA",
+    "minimumGrossMarginPercent": 30,
+    "customerTariffHardCap": true,
+    "rule": "The contracted service must be fully covered without exceeding the customer tariff; activation is blocked when cost, margin or provider evidence is insufficient."
+  },
+  "architecture": {
+    "publicSurface": "qnqooo/qnq-web",
+    "runtimeOwner": "qnqooo/sqaile",
+    "integrationPlane": "QuHub",
+    "universalSecurityGate": "QuFense",
+    "operatingModel": "Modular core first; independently deployable Qu motors retain isolated repositories, services and approval gates when their runtime boundary is real.",
+    "forbiddenShortcuts": [
+      "browser localStorage as authentication or entitlement",
+      "direct provider secrets or API calls from the public website",
+      "activation without order, entitlement and acceptance evidence",
+      "production or quantum-security claims based only on a prototype",
+      "unreviewed deployment or direct main-branch publication"
+    ]
+  },
+  "criticalPath": [
+    "G0",
+    "G1",
+    "G2",
+    "G3",
+    "G4",
+    "G5",
+    "G6",
+    "G7"
+  ],
+  "phases": [
+    {
+      "id": "G0",
+      "name": "Product truth and portfolio freeze",
+      "horizon": "T+0-14 days",
+      "dependsOn": [],
+      "exitCriteria": [
+        "Authoritative catalog maps every offer to owner, provider, fulfillment mode, prerequisites and evidence state.",
+        "Provider capability and contract matrix distinguishes available, sandbox, negotiation and unsupported states.",
+        "Public claims, pricing and roadmap are aligned with verified capability states.",
+        "The first sellable slice is QuFense controlled beta; the provider-backed QuSOC assessment follows on the same transaction spine."
+      ]
+    },
+    {
+      "id": "G1",
+      "name": "Secure platform foundation",
+      "horizon": "T+15-45 days",
+      "dependsOn": ["G0"],
+      "exitCriteria": [
+        "QuIdentify uses server-issued OIDC/OAuth sessions, MFA and tenant-scoped RBAC.",
+        "Tenant isolation and resource authorization tests pass in CI.",
+        "QuVault stores references to an approved secret manager; no browser or repository secrets exist.",
+        "QuAudit records signed actor, tenant, policy, evidence and outcome events.",
+        "Logs, metrics, traces, backups and a tested restore path exist in a non-production environment."
+      ]
+    },
+    {
+      "id": "G2",
+      "name": "Commercial transaction spine",
+      "horizon": "T+46-75 days",
+      "dependsOn": ["G1"],
+      "exitCriteria": [
+        "Catalog, assessment, quote, acceptance, order, subscription and entitlement share one tenant-aware lifecycle.",
+        "QuCFA enforces provider cost, tariff hard cap and minimum 30 percent gross margin with deterministic tests.",
+        "QuPay verifies signed sandbox webhooks and records a durable payment ledger without storing card data.",
+        "Legal acceptance, product schedule, SLA and provider-specific dependencies are evidence-linked.",
+        "Refund, dispute, cancellation and failed-payment paths are tested."
+      ]
+    },
+    {
+      "id": "G3",
+      "name": "QuHub provisioning control plane",
+      "horizon": "T+76-105 days",
+      "dependsOn": ["G2"],
+      "exitCriteria": [
+        "A versioned provider-adapter contract supports validation, quote, provision, status, update, suspend, terminate and webhook normalization.",
+        "Every provider operation uses tenant scope, idempotency, redacted evidence, retry policy and dead-letter handling.",
+        "API_AUTO, HUMAN_ASSISTED and MANUAL_EXTERNAL fulfillment modes share one state machine.",
+        "Entitlements become active only after service-specific health and acceptance checks pass.",
+        "At least one sandbox adapter and one human-assisted fallback complete the full order-to-activation path."
+      ]
+    },
+    {
+      "id": "G4",
+      "name": "Customer activation and support",
+      "horizon": "T+106-135 days",
+      "dependsOn": ["G3"],
+      "exitCriteria": [
+        "QuDeploy exposes prerequisites, tasks, owner, progress, evidence, health and rollback per entitlement.",
+        "QuSupport operates severity, SLA clocks, escalation, provider handoff and customer verification.",
+        "The customer workspace exposes services, incidents, billing, documents, integrations and connector health by tenant and role.",
+        "Aggy provides evidence-cited guidance and never requests secrets in chat.",
+        "A supervised support drill restores a failed service and preserves the complete audit trail."
+      ]
+    },
+    {
+      "id": "G5",
+      "name": "First revenue-ready products",
+      "horizon": "T+136-180 days",
+      "dependsOn": ["G4"],
+      "exitCriteria": [
+        "QuFense controlled beta has independent security review, licensed scope, monitoring and tested recovery.",
+        "QuSOC and QuCISO complete one provider-backed alert-to-response workflow under an active agreement and SLA.",
+        "QuMarket completes one quote-to-cash-to-activation-to-support journey with a pilot tenant.",
+        "Actual provider cost, gross margin, activation time, intervention rate and support results are measured.",
+        "Pilot customer acceptance and rollback evidence are signed and retained."
+      ]
+    },
+    {
+      "id": "G6",
+      "name": "Graphene Ring expansion",
+      "horizon": "T+181-270 days",
+      "dependsOn": ["G5"],
+      "exitCriteria": [
+        "QuIntel and QuInfra each operate one contracted, monitored and supportable service slice.",
+        "Each new Graphene Ring offer reuses identity, commerce, entitlement, provisioning, evidence and support contracts.",
+        "QuLegal, QuLearn, QuTeach, QuAcademy and QuCertify workflows remain gated until their providers and legal roles are verified.",
+        "No new product enters sale without a complete operational scorecard and QuCFA economics.",
+        "Provider concentration, regional data, exit and substitution risks are documented."
+      ]
+    },
+    {
+      "id": "G7",
+      "name": "Production assurance and general availability",
+      "horizon": "Evidence-driven; no fixed date",
+      "dependsOn": ["G6"],
+      "exitCriteria": [
+        "Independent security assessment, incident exercise, backup restore and disaster-recovery objectives pass.",
+        "Production SLOs, capacity limits, on-call ownership and provider escalation paths are measured.",
+        "Privacy, DPA, subprocessor, SLA, insurance and jurisdictional reviews are approved for the launch markets.",
+        "All mandatory operational gates are PASS with non-expired evidence.",
+        "EDDIE VELASQUEZ ORTIZ explicitly approves production promotion after reviewing tests, risk, cost and rollback."
+      ]
+    }
+  ],
+  "productWaves": [
+    {
+      "wave": 1,
+      "purpose": "Universal control plane",
+      "products": ["QuFense", "QuIdentify", "QuVault", "QuAudit", "QuHub", "QuCFA"],
+      "requiredGate": "G1"
+    },
+    {
+      "wave": 2,
+      "purpose": "Sell, activate and support one complete service",
+      "products": ["QuMarket", "QuPay", "QuDeploy", "QuSupport"],
+      "requiredGate": "G4"
+    },
+    {
+      "wave": 3,
+      "purpose": "First Graphene Ring revenue services",
+      "products": ["QuCISO", "QuSOC"],
+      "requiredGate": "G5"
+    },
+    {
+      "wave": 4,
+      "purpose": "Expand only through the proven transaction spine",
+      "products": ["QuIntel", "QuInfra", "QuLegal", "QuLearn", "QuTeach", "QuAcademy", "QuCertify"],
+      "requiredGate": "G6"
+    }
+  ],
+  "scorecard": {
+    "statusValues": ["NOT_STARTED", "LOCAL_UNVERIFIED", "EVIDENCE_IN_PROGRESS", "PASS", "BLOCKED"],
+    "currentOverallStatus": "EVIDENCE_IN_PROGRESS",
+    "metrics": [
+      "qualified-lead to quote conversion",
+      "quote to active entitlement conversion",
+      "median activation time",
+      "provisioning success and manual intervention rate",
+      "gross margin by product and tenant",
+      "connector health and entitlement drift",
+      "first-response, resolution, reopen and customer verification",
+      "backup restore and rollback success",
+      "security incidents caused by platform change",
+      "agent approval, rejection and prohibited-action block rate"
+    ]
+  }
+}
