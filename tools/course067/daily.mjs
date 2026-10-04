@@ -1,19 +1,18 @@
 import fs from 'node:fs/promises';
-import { getDueBirthdays, evaluateBirthdayDay } from './birthdayScheduler.js';
-const calendar = process.env.COURSE067_CALENDAR_JSON;
-let status;
-if (!calendar) {
- status = { status: 'pending_private_calendar', whatsapp: 'not_connected' };
-} else {
- let schedule;
- try { schedule = JSON.parse(calendar); } catch { throw new Error('Invalid private calendar JSON'); }
- if (!Array.isArray(schedule.members)) throw new Error('Calendar must contain members');
- await fs.mkdir('data', { recursive: true });
- await fs.writeFile('data/birthdays-course-067.json', JSON.stringify(schedule), { mode: 0o600 });
- const decision = evaluateBirthdayDay(await getDueBirthdays());
- // Names, cards and messages must never be placed in this public repository's logs.
- status = { status: decision.members.length ? (decision.eligible ? 'greeting_ready' : 'pending_reciprocity') : 'no_birthdays', count: decision.members.length, whatsapp: 'not_connected' };
- await fs.rm('data/birthdays-course-067.json');
+import { evaluateBirthdayDay } from './birthdayScheduler.js';
+import { parseCalendar, dueMembers } from './calendar.js';
+export function review(calendar, date = new Date()) {
+  const base = { mode: 'dry_run', whatsapp: 'not_connected', delivery: 'disabled' };
+  if (!calendar?.trim()) return { ...base, status: 'pending_private_calendar' };
+  try {
+    const decision = evaluateBirthdayDay(dueMembers(parseCalendar(calendar), date));
+    return { ...base, status: decision.members.length ? (decision.eligible ? 'greeting_ready' : 'pending_reciprocity') : 'no_birthdays' };
+  } catch { return { ...base, status: 'invalid_private_calendar' }; }
 }
-console.log(JSON.stringify(status));
-if (process.env.GITHUB_STEP_SUMMARY) await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, `## Curso 067\n\nEstado: ${status.status}\n\nWhatsApp: pendiente de vinculación.\n`);
+// No network, ledger writes, calendar files, message text or recipient counts.
+if (process.argv[1]?.endsWith('/daily.mjs')) {
+  const status = review(process.env.COURSE067_CALENDAR_JSON);
+  console.log(JSON.stringify(status));
+  if (process.env.GITHUB_STEP_SUMMARY) await fs.appendFile(process.env.GITHUB_STEP_SUMMARY, `## Curso 067\n\nEstado: ${status.status}\n\nModo: prueba; envíos deshabilitados.\n`);
+  if (status.status === 'invalid_private_calendar') process.exitCode = 1;
+}

@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '22'
       - name: Verificar regla de reciprocidad
-        run: node --test tools/course067/rules.test.mjs
+        run: node --test tools/course067/*.test.mjs
       - name: Revisar calendario privado
         env:
           COURSE067_CALENDAR_JSON: ${{ secrets.COURSE067_CALENDAR_JSON }}
