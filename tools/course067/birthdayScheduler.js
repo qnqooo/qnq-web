@@ -1,11 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { config } from "./config.js";
-import { sendWhatsAppText } from "./whatsapp.js";
 
 const dataDir = path.resolve(process.cwd(), "data");
 const birthdaysFile = path.join(dataDir, "birthdays-course-067.json");
-const sentLogFile = path.join(dataDir, "birthday-sent-log.json");
 
 export async function listBirthdays() {
   return readJson(birthdaysFile, {
@@ -44,47 +42,9 @@ export async function getDueBirthdays(date = new Date()) {
     }));
 }
 
-export async function sendDueBirthdayMessages(date = new Date()) {
-  const dueMembers = await getDueBirthdays(date);
-  const decision = evaluateBirthdayDay(dueMembers);
-  if (!decision.eligible) return [{ skipped: true, reason: decision.reason, members: decision.members.map(m => m.name) }];
-  const sentLog = await readJson(sentLogFile, { sent: {} });
-  const year = getYear(date, config.birthdayTimezone);
-  const results = [];
-
-  for (const member of [{ id: dueMembers.map(m => m.id).sort().join('+'), name: decision.members.map(m => m.name).join(', '), message: decision.message, groupName: config.birthdayGroupName }]) {
-    const key = `${year}-${formatMonthDay(date, config.birthdayTimezone)}-${member.id}`;
-    if (sentLog.sent[key]) {
-      results.push({ member: member.name, skipped: true, reason: "already_sent" });
-      continue;
-    }
-
-    if (!config.birthdayAdminNumbers.length) {
-      results.push({ member: member.name, skipped: true, reason: "missing_admin_numbers" });
-      continue;
-    }
-
-    const adminNotice = [
-      `Mensaje programado para publicar en el grupo "${member.groupName || config.birthdayGroupName}":`,
-      "",
-      member.message
-    ].join("\n");
-
-    for (const adminNumber of config.birthdayAdminNumbers) {
-      await sendWhatsAppText(adminNumber, adminNotice);
-    }
-
-    sentLog.sent[key] = {
-      memberId: member.id,
-      memberName: member.name,
-      sentAt: new Date().toISOString(),
-      sentToAdmins: config.birthdayAdminNumbers.length
-    };
-    results.push({ member: member.name, sent: true });
-  }
-
-  await writeJson(sentLogFile, sentLog);
-  return results;
+// This legacy entry point must not bypass the activation gate.
+export async function sendDueBirthdayMessages() {
+  return [{ skipped: true, reason: "activation_disabled" }];
 }
 
 export function startBirthdayScheduler() {
@@ -143,9 +103,4 @@ async function readJson(filePath, fallback) {
     if (error.code === "ENOENT") return fallback;
     throw error;
   }
-}
-
-async function writeJson(filePath, value) {
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, JSON.stringify(value, null, 2));
 }
